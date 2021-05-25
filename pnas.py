@@ -16,7 +16,7 @@ for i in (range(1,2)):
         pdf_urls.append(nihan[nihan.find('">')+2:nihan.find(";")])
 
     print(*pdf_urls, sep='\n')
-
+    #yorumekledim
 
     #print(ext_ids)
 
