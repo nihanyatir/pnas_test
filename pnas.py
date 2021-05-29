@@ -11,7 +11,7 @@ issue_list = []
 #volume element (example): <span class="highwire-cite-metadata-volume highwire-cite-metadata">118 </span>
 #issue element (example): <span class="highwire-cite-metadata-issue highwire-cite-metadata">(22) </span>
 
-for i in (range(1,2)):
+for i in range(1,2):
     url = "https://www.pnas.org/content/by/section/Psychological%20and%20Cognitive%20Sciences?page=" + str(i)
     req = requests.get(url)
     soup = BeautifulSoup(req.text, 'lxml')
@@ -36,6 +36,7 @@ for i in range(len(link_list)):
     elem = "https://www.pnas.org/content/pnas/" + str(vol_list[i]) + "/" + str(issue_list[i]) + "/" + str(link_list[i]) + ".full.pdf"
     pdf_urls.append(elem)
     i += 1
+
 #print(str(len(pdf_urls)) + " articles have been found!")
 #print(*pdf_urls, sep='\n')
 
@@ -46,14 +47,29 @@ for i in range(len(pdf_urls)):
     pdf_path = pdf_urls[i]
     i += 1
 
+title_list = []
+
 for i in range(len(pdf_urls)):
-    filename = 
+    url_for_title = "https://www.pnas.org/content/pnas/" + str(vol_list[i]) + "/" + str(issue_list[i]) + "/" + str(link_list[i])
+    req = requests.get(url_for_title)
+    soup = BeautifulSoup(req.text, 'lxml')
+
+    for title in soup.find_all('meta', attrs={'name':'DC.Title'}):
+        title_to_str = str(title)
+        #print(vol_to_str)
+        title_list.append(title_to_str[title_to_str.find('="')+2 : title_to_str.find('" ')])
+
+print(*title_list, sep="\n")
 
 
-def download_file(download_url, filename):
-    response = urllib.request.urlopen(download_url)    
-    file = open(filename + ".pdf", 'wb')
-    file.write(response.read())
-    file.close()
+# for i in range(len(pdf_urls)):
+#     filename = 
+
+
+# def download_file(download_url, filename):
+#     response = urllib.request.urlopen(download_url)    
+#     file = open(filename + ".pdf", 'wb')
+#     file.write(response.read())
+#     file.close()
  
-download_file(pdf_path, "Test")
+# download_file(pdf_path, "Test")
